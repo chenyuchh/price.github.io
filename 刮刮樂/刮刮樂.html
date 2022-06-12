@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="UTF-8">
+  <title>刮刮樂</title>
+  <style type="text/css">
+   #c1{
+    border: 1px solid blue;
+    position: absolute;
+   }
+   
+   #c2{
+    border: 1px solid red;
+   }
+   
+   body{
+    position: relative;
+   }
+  </style>
+ </head>
+ <body>
+ <div id="test">
+   <canvas width="100" height="100"></canvas>
+</div>
+  <div style = "text-align:center;">
+  <canvas id="c1" width="500" height="500"></canvas>
+  
+  
+  <canvas id="c2" width="500" height="500"></canvas>
+  
+ </body>
+ <script type="text/javascript">
+  var c1 = document.getElementById("c1");
+  var c2 = document.getElementById("c2");
+  
+  var ctx1 = c1.getContext("2d");
+  var ctx2 = c2.getContext("2d");
+  
+  
+  // 繪制圖片到底層  canvas2
+  var imgs = new Image();
+  imgs.src = 'qrcode.png';
+  imgs.onload = function(){
+   ctx2.drawImage(this,0,0,500,500)
+  }
+  
+  // 塗層繪制到頂層(即覆蓋膜)  canvas1
+  ctx1.fillStyle = "#2152A3";                   //BG CO
+  ctx1.fillRect(0,0,500,500);
+  
+  ctx1.font = "normal 80px 仿宋";   
+  ctx1.strokeStyle = "33C4FF";   			//WORD CO
+  ctx1.strokeText("",110,260);
+  
+  // 監聽canvas的onmousedown事件
+  c1.onmousedown = function(ev){
+  c1.onmousemove = function(e){
+   console.log(e);
+   var w = 50;   // 清除區域的寬度
+   var h = 50;   // 清除區域的高度
+   var x = e.pageX-c1.offsetLeft - w/2;    // 清除區域的x位置
+   var y = e.pageY-c1.offsetTop - h/2;  // 清除區域的y位置
+   ctx1.clearRect(x,y,w,h);
+  }
+  }
+  c1.onmouseup = function(ev){
+  // 取消onmousemove事件
+  c1.onmousemove = null;
+  }
+
+ </script>
+</html>
+
+
+
